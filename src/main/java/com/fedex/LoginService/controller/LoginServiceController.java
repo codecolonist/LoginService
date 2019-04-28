@@ -25,10 +25,6 @@ public class LoginServiceController {
 	@Autowired
 	private MpUserRepository mpuserrepo;
 	
-	@RequestMapping("/ping")
-	public String getName() {
-		return "API GATEWAY is UP";
-	}
 
 	@RequestMapping(value="/userLogin",method=RequestMethod.POST,consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<LoginResponse> UserLogin(@RequestBody LoginRequest loginRequest,HttpServletRequest servletRequest) throws Exception  {
