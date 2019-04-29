@@ -1,8 +1,10 @@
 package com.fedex.LoginService.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,11 +32,23 @@ public class RegistrationController {
 		
 		UserInfo mpuser = new UserInfo();		
 		mpuser=registationRequest.getMpuser();
-		mpuserrepo.save(mpuser);
 		RegistrationResponse registrationResponse = new RegistrationResponse();
-		ServiceStatus serviceStatus = new ServiceStatus(HttpStatus.ACCEPTED,"Registration is successfully done!","");
-		registrationResponse.setLastName(mpuser.getLastname());	
-		registrationResponse.setServiceStatus(serviceStatus);
+		
+		try {
+			mpuserrepo.save(mpuser);	
+			ServiceStatus serviceStatus = new ServiceStatus(HttpStatus.ACCEPTED,"Registration is successfully done!","");
+			registrationResponse.setLastName(mpuser.getLastname());	
+			registrationResponse.setServiceStatus(serviceStatus);
+		} catch (DataIntegrityViolationException e) {
+			// TODO Auto-generated catch block
+			ServiceStatus serviceStatus = new ServiceStatus(HttpStatus.ACCEPTED,"Username or email Id already exists!","please check your email Id");
+			registrationResponse.setLastName(mpuser.getLastname());	
+			registrationResponse.setServiceStatus(serviceStatus);
+	
+			e.printStackTrace();
+		}
+		
+		
 		return registrationResponse;
 		
 		

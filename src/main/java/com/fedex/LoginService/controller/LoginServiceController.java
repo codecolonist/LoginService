@@ -45,10 +45,10 @@ public class LoginServiceController {
 			return new ResponseEntity<>(loginResponse,HttpStatus.OK);
 			
 		}else {
-             throw new Exception();
-			//loginResponse.setServiceMessage("Login failed to MahanyaRam Photography");
+             
+			loginResponse.setServiceMessage("Login failed to Creds app");
 			
-			//return new ResponseEntity<>(loginResponse,HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<>(loginResponse,HttpStatus.BAD_REQUEST);
 			
 		}
 		
